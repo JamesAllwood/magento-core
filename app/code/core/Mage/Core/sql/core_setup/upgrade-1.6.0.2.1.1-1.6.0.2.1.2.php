@@ -1,14 +1,13 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Magento
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the Academic Free License (AFL 3.0)
- * that is bundled with this package in the file LICENSE_AFL.txt.
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/afl-3.0.php
+ * http://opensource.org/licenses/osl-3.0.php
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
@@ -20,21 +19,22 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Captcha
+ * @package     Mage_Core
  * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
--->
-<config>
-    <modules>
-        <Mage_Captcha>
-            <active>true</active>
-            <codePool>core</codePool>
-            <depends>
-                <Mage_Customer />
-                <Mage_Adminhtml />
-                <Mage_Wishlist />
-            </depends>
-        </Mage_Captcha>
-    </modules>
-</config>
+
+/* @var $installer Mage_Core_Model_Resource_Setup */
+$installer = $this;
+
+$installer->startSetup();
+$connection = $installer->getConnection();
+
+$connection->delete(
+    $this->getTable('core_config_data'),
+    $connection->prepareSqlCondition('path', array(
+        'like' => 'dev/template/allow_symlink'
+    ))
+);
+
+$installer->endSetup();
